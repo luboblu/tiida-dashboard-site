@@ -10,28 +10,24 @@
 <meta property="og:image" content="assets/img/dashboard-demo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Share+Tech+Mono&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* Layout: one instrument-panel column. Night-cabin palette by choice (single dark theme):
-   the page looks like the dashboard it describes. Orange = the gauge needle and LED clock. */
-@font-face { font-family: "DSEG7"; src: url("assets/fonts/DSEG7Classic-Bold.woff2") format("woff2"); font-display: swap; }
+/* 和儀表 v0.4 同一套視覺：深色石墨底、白灰文字，顏色只用來表示狀態（綠＝完成、琥珀＝等待）。
+   單一深色主題是刻意的：頁面長得像它介紹的儀表。 */
 :root {
   color-scheme: dark;
-  --bg: #0c0d10;
-  --panel: #15171b;
-  --panel-2: #1c1f24;
-  --line: #2a2e34;
-  --ink: #ebe8e2;
-  --muted: #9a9fa6;
-  --dim: #5d636b;
-  --accent: #ff6a1a;
-  --accent-soft: rgba(255, 106, 26, 0.14);
-  --ok: #3ccf7a;
-  --wait: #f2b84b;
-  --display: "Barlow Semi Condensed", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --bg: #0d0f12;
+  --panel: #15181d;
+  --panel-2: #1c2026;
+  --line: #262b33;
+  --ink: #f3f5f7;
+  --muted: #a3acb7;
+  --dim: #6b7480;
+  --ok: #3ddc84;
+  --wait: #ffb020;
+  --display: "Barlow", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   --body: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
-  --num: "Share Tech Mono", ui-monospace, "Consolas", monospace;
-  --led: "DSEG7", "Share Tech Mono", monospace;
+  --num: "Barlow", "Roboto", "Arial", sans-serif;
 }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
@@ -41,29 +37,30 @@ body {
   padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
 }
 .wrap { max-width: 1080px; margin: 0 auto; }
-a { color: var(--accent); text-underline-offset: 3px; }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+a { color: var(--ink); text-decoration-color: var(--dim); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--ink); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
 img { max-width: 100%; display: block; }
 
 /* ---------- 頂部 ---------- */
 .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px 8px; flex-wrap: wrap; }
-.brand { font: 700 20px var(--display); letter-spacing: .08em; }
-.brand span { color: var(--dim); font: 14px var(--num); letter-spacing: .1em; margin-left: 10px; }
+.brand { font: 700 20px var(--display); letter-spacing: .3em; }
+.brand span { color: var(--dim); font: 500 14px var(--num); letter-spacing: .12em; margin-left: 6px; }
 .pills { display: flex; gap: 8px; flex-wrap: wrap; }
-.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font: 13px var(--num); color: var(--muted); letter-spacing: .04em; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dim); }
-.dot.ok { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
-.dot.wait { background: var(--wait); }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font: 500 14px var(--body); color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--dim); flex: none; }
+.dot.ok { background: var(--ok); border-color: var(--ok); }
+.dot.wait { background: var(--wait); border-color: var(--wait); }
 
 /* ---------- Hero ---------- */
 .hero { padding-block: 40px 28px; display: grid; gap: 28px; }
-.eyebrow { font: 600 14px var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.eyebrow { font: 600 15px var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 h1 { margin: 0; font: 700 clamp(40px, 7vw, 76px)/1.05 var(--display); letter-spacing: .01em; text-wrap: balance; }
 .lead { margin: 0; max-width: 40em; color: var(--muted); font-size: 19px; }
-.readout { display: flex; gap: 28px; flex-wrap: wrap; }
+.readout { display: flex; gap: 36px; flex-wrap: wrap; }
 .readout div { display: grid; }
-.readout b { font: 34px/1.1 var(--led); color: var(--accent); text-shadow: 0 0 10px rgba(255,106,26,.45); }
-.readout small { font: 12px var(--num); color: var(--dim); letter-spacing: .14em; text-transform: uppercase; margin-top: 6px; }
+.readout b { font: 600 44px/1 var(--num); font-variant-numeric: tabular-nums; color: var(--ink); }
+.readout small { font: 500 14px var(--body); color: var(--muted); margin-top: 8px; }
 .shot { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #000; }
 .shot img { width: 100%; height: auto; }
 figure { margin: 0; }
@@ -79,16 +76,26 @@ p { margin: 0 0 14px; }
 /* 三個步驟：真的有先後順序，所以用編號 */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .step { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 10px; align-content: start; }
-.step .n { font: 30px var(--led); color: var(--accent); }
+.step .n { font: 600 30px/1 var(--num); color: var(--dim); }
 .step p { color: var(--muted); font-size: 15.5px; margin: 0; }
-.status { display: inline-flex; align-items: center; gap: 8px; font: 13px var(--num); color: var(--muted); letter-spacing: .04em; }
+.status { display: inline-flex; align-items: center; gap: 8px; font: 500 14px var(--body); color: var(--muted); }
+
+/* 設計原則 */
+.rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.rule { padding: 20px 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.rule p { color: var(--muted); font-size: 15.5px; margin: 0; }
+.rule small { display: block; margin-top: 10px; color: var(--dim); font-size: 13.5px; }
+.rule small a { color: var(--muted); }
+.swatches { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.swatches span { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
+.swatches i { width: 14px; height: 14px; border-radius: 4px; }
 
 /* 畫面 */
 .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
 .gallery .wide { grid-column: 1 / -1; }
-.tag { display: inline-block; font: 12px var(--num); letter-spacing: .08em; padding: 2px 8px; border-radius: 6px; margin-right: 8px; vertical-align: 1px; }
-.tag.real { background: rgba(60,207,122,.14); color: var(--ok); }
-.tag.proto { background: var(--accent-soft); color: var(--accent); }
+.tag { display: inline-block; font: 500 12.5px var(--body); padding: 1px 8px; border-radius: 6px; margin-right: 8px; vertical-align: 1px; }
+.tag.real { background: rgba(61,220,132,.14); color: var(--ok); }
+.tag.proto { background: var(--panel-2); color: var(--muted); border: 1px solid var(--line); }
 
 /* 功能 */
 .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -104,27 +111,28 @@ p { margin: 0 0 14px; }
 .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
 .flow div { padding: 20px; background: var(--panel); border-right: 1px solid var(--line); }
 .flow div:last-child { border-right: 0; }
-.flow b { display: block; font: 600 13px var(--num); color: var(--accent); letter-spacing: .08em; margin-bottom: 6px; }
+.flow b { display: block; font: 600 14px var(--num); color: var(--ink); letter-spacing: .14em; margin-bottom: 6px; }
 .flow p { margin: 0; color: var(--muted); font-size: 15px; }
 .stats { display: flex; flex-wrap: wrap; gap: 36px; margin-top: 28px; }
 .stats div { display: grid; }
-.stats b { font: 30px var(--led); color: var(--ink); }
+.stats b { font: 600 36px/1.1 var(--num); font-variant-numeric: tabular-nums; color: var(--ink); }
 .stats small { color: var(--muted); font-size: 14px; }
-.note { margin-top: 24px; padding: 16px 20px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 10px 10px 0; color: var(--muted); font-size: 15.5px; }
+.note { margin-top: 24px; padding: 16px 20px; border-left: 3px solid var(--muted); background: var(--panel); border-radius: 0 10px 10px 0; color: var(--muted); font-size: 15.5px; }
 .note b { color: var(--ink); font-weight: 500; }
 
 /* 進度表 */
 .table { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
 table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 15.5px; }
 th, td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { font: 600 13px var(--num); color: var(--dim); letter-spacing: .1em; background: var(--panel); }
+th { font: 600 14px var(--body); color: var(--dim); background: var(--panel); }
 tr:last-child td { border-bottom: 0; }
 td:first-child { white-space: nowrap; }
 
 footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); color: var(--dim); font-size: 14px; display: grid; gap: 8px; }
+footer a { color: var(--muted); }
 
 @media (max-width: 820px) {
-  .steps, .features { grid-template-columns: 1fr; }
+  .steps, .features, .rules { grid-template-columns: 1fr; }
   .gallery { grid-template-columns: 1fr; }
   .flow { grid-template-columns: 1fr 1fr; }
   .flow div:nth-child(2) { border-right: 0; }
@@ -135,8 +143,8 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
   .flow { grid-template-columns: 1fr; }
   .flow div { border-right: 0; border-bottom: 1px solid var(--line); }
   .flow div:last-child { border-bottom: 0; }
-  .readout { gap: 20px; }
-  .readout b { font-size: 28px; }
+  .readout { gap: 22px; }
+  .readout b { font-size: 36px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
@@ -145,7 +153,7 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
 <div class="wrap">
 
   <header class="top">
-    <div class="brand">TIIDA 儀表<span>C11 · 2010</span></div>
+    <div class="brand">TIIDA<span>C11 · 2010</span></div>
     <div class="pills" aria-label="目前狀態">
       <span class="pill"><i class="dot ok"></i>模擬器測試通過</span>
       <span class="pill"><i class="dot wait"></i>等待車機實測</span>
@@ -161,18 +169,18 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
       <div class="readout" aria-label="專案數字">
         <div><b>2</b><small>Android App</small></div>
         <div><b>2</b><small>種螢幕尺寸自動測試</small></div>
-        <div><b>13</b><small>實作任務</small></div>
+        <div><b>16</b><small>實作任務</small></div>
         <div><b>2</b><small>GB 車機記憶體</small></div>
       </div>
       <figure>
-        <div class="shot"><img src="assets/img/dashboard-demo.jpg" width="1600" height="900" alt="全螢幕儀表示範模式：左邊轉速錶與車速 54 km/h，中間水溫 90°C、電壓 13.87 V、油耗、平均車速、本次行程、引擎負載六格，右邊橘色 LED 時鐘。"></div>
-        <figcaption><span class="tag real">實際畫面</span>全螢幕儀表 v0.3（Android 模擬器、示範模式）。</figcaption>
+        <div class="shot"><img src="assets/img/dashboard-demo.jpg" width="1600" height="900" alt="全螢幕儀表 v0.4 示範模式：左側導覽列，中間大字車速與橫向分段轉速條，右邊水溫、電瓶、瞬間油耗與引擎負載清單，底部是本次行程、行駛時間、平均車速與平均油耗。"></div>
+        <figcaption><span class="tag real">實際畫面</span>全螢幕儀表 v0.4（Android 模擬器、示範模式）。</figcaption>
       </figure>
     </div>
 
     <section id="origin">
       <h2>從一則 Threads 開始</h2>
-      <p class="sub">這個專案照著 <a href="https://www.threads.com/@johnnp/post/DfaVdEok_AA">@johnnp 的〈E91 儀表．開發紀錄〉</a>的三個步驟做。原作者在 BMW E91 的 KSW 車機上做了新儀表；這裡換成 Nissan Tiida 和 JHY 車機，每一步都依車子重新設計。</p>
+      <p class="sub">這個專案照著 <a href="https://www.threads.com/@johnnp/post/DfaVdEok_AA">@johnnp 的〈E91 儀表．開發紀錄〉</a>的三個步驟做。原作者在 BMW E91 的 KSW 車機上做了新儀表；這裡換成 Nissan Tiida 和 JHY 車機，每一步都依車子重新設計。畫面從 v0.4 起也換成自己的設計，見下一節。</p>
       <div class="steps">
         <div class="step">
           <div class="n">01</div>
@@ -195,21 +203,53 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
       </div>
     </section>
 
+    <section id="design">
+      <h2>照車用規範重新設計</h2>
+      <p class="sub">第一版畫面沿用了原作者的樣子：橘色轉速錶、直式 LED 時鐘。v0.4 全部重畫，改依車用介面的公開規範決定字多大、按鈕多大、什麼時候該有顏色。</p>
+      <div class="rules">
+        <div class="rule">
+          <h3>顏色只代表狀態</h3>
+          <p>平常全是白和灰，數值正常就不加「正常」標籤。只有需要注意時才出現顏色，意思和車上的指示燈一樣。</p>
+          <div class="swatches" aria-label="顏色對照">
+            <span><i style="background:#4fa8ff"></i>偏冷・暖車中</span>
+            <span><i style="background:#ffb020"></i>注意</span>
+            <span><i style="background:#ff4d4f"></i>危險</span>
+          </div>
+          <small>依據：ISO 2575 指示燈顏色慣例</small>
+        </div>
+        <div class="rule">
+          <h3>字和按鈕的大小有下限</h3>
+          <p>主要數字至少 32 dp、次要文字 24 dp、可點的地方至少 76×76 dp，再換算成車機 1024×600 螢幕的實際大小。</p>
+          <small>依據：<a href="https://developers.google.com/cars/design/design-foundations/visual-principles">Android for Cars 視覺原則</a></small>
+        </div>
+        <div class="rule">
+          <h3>車速是唯一主角</h3>
+          <p>車速置中放大、數字等寬不跳動；寬扁的螢幕適合橫向的錶，所以轉速改成一條分段燈條。提醒固定出現在車速正下方。</p>
+          <small>依據：<a href="https://developer.apple.com/videos/play/wwdc2024/10112/">WWDC24 次世代 CarPlay 設計</a>、賽車儀表的分段轉速燈</small>
+        </div>
+        <div class="rule">
+          <h3>行車中只看不按</h3>
+          <p>一眼看完、不用操作；提醒不跳視窗、不出聲。沒有資料的項目整塊收起來，不擺一排「--」。</p>
+          <small>依據：<a href="https://www.nhtsa.gov/sites/nhtsa.gov/files/811781.pdf">NHTSA 分心駕駛指引</a>（單次視線離開路面不超過 2 秒）</small>
+        </div>
+      </div>
+    </section>
+
     <section id="screens">
       <h2>畫面</h2>
       <p class="sub">標「實際畫面」的是 App 在 Android 模擬器上的截圖；標「原型」的是設計稿，背景的 CarPlay 是示意圖。</p>
       <div class="gallery">
         <figure class="wide">
-          <div class="shot"><img src="assets/img/overlay-prototype.jpg" width="1280" height="720" loading="lazy" alt="懸浮小框原型：導航畫面右上角疊一個半透明深色小框，顯示車速 65 km/h、水溫 90°C、油耗 3.3。"></div>
-          <figcaption><span class="tag proto">原型</span>懸浮小框疊在 CarPlay 右上角，避開左側的 App 列。可拖曳、會貼齊角落，點一下開全螢幕儀表。</figcaption>
+          <div class="shot"><img src="assets/img/overlay-prototype.jpg" width="1280" height="720" loading="lazy" alt="懸浮小框原型：導航畫面右上角疊一個橫向深色膠囊，顯示車速、水溫與油耗；左邊列出只有 GPS、暖車中（水溫藍色）、水溫偏高（琥珀色邊框）、水溫過高（紅色）四種樣子。"></div>
+          <figcaption><span class="tag proto">原型</span>懸浮小框疊在 CarPlay 右上角，避開左側的 App 列；平常灰白，水溫異常才變色。現在的 App 先做只有 GPS 的版本。</figcaption>
         </figure>
         <figure>
-          <div class="shot"><img src="assets/img/dashboard-live.jpg" width="1600" height="900" loading="lazy" alt="全螢幕儀表實際模式：沒有 OBD 的格子顯示 -- 並變淡，本次行程 0.0 km。"></div>
-          <figcaption><span class="tag real">實際畫面</span>還沒接 OBD：引擎數據顯示「--」並淡化，車速和行程來自 GPS。</figcaption>
+          <div class="shot"><img src="assets/img/dashboard-live.jpg" width="1600" height="900" loading="lazy" alt="全螢幕儀表實際模式：還沒接 OBD，右邊是一張說明卡，GPS 還沒定位時車速顯示灰色的兩條短槓。"></div>
+          <figcaption><span class="tag real">實際畫面</span>還沒接 OBD：車況欄換成一張說明卡；GPS 還沒定位時車速顯示灰色「--」。</figcaption>
         </figure>
         <figure>
-          <div class="shot"><img src="assets/img/dashboard-lite.jpg" width="1600" height="900" loading="lazy" alt="全螢幕儀表輕量模式：LED 時鐘沒有發光，右下角顯示 v0.3.2 · 56 fps · 輕量。"></div>
-          <figcaption><span class="tag real">實際畫面</span>輕量模式：關掉發光與動畫、更新頻率減半，右下角顯示畫面更新率。</figcaption>
+          <div class="shot"><img src="assets/img/dashboard-alert.jpg" width="1280" height="720" loading="lazy" alt="水溫偏高提醒原型：水溫 108°C 以琥珀色顯示，車速縮小，下方出現琥珀色提醒條「水溫偏高 108 °C，留意水溫，停車後檢查副水箱水位」。"></div>
+          <figcaption><span class="tag proto">原型</span>水溫 105 °C 起：數字和提醒條變琥珀色，車速縮小讓出位置；110 °C 起改紅色。</figcaption>
         </figure>
         <figure>
           <div class="shot"><img src="assets/img/settings.jpg" width="1600" height="900" loading="lazy" alt="設定頁：左邊是權限、啟動、示範模式、輕量模式、ZLink 等設定，右邊是診斷資訊，包含系統記憶體與 App 記憶體。"></div>
@@ -226,12 +266,12 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
       <h2>做了什麼</h2>
       <p class="sub">兩個 App：<b>Tiida Probe</b> 只跑一次，用來了解車機；<b>Tiida Dashboard</b> 是每天用的儀表。</p>
       <div class="features">
-        <div class="feature"><h3>懸浮小框<span class="status"><i class="dot ok"></i>完成</span></h3><p>原生小元件，每秒更新 4 次；模擬器上整個 App 約 33 MB。框以外的觸控照樣傳給 CarPlay；長按隱藏 5 分鐘。</p></div>
-        <div class="feature"><h3>全螢幕儀表<span class="status"><i class="dot ok"></i>完成</span></h3><p>轉速錶、六格資訊、直式 LED 時鐘。用 WebView 顯示，程式與樣式都限制在車機舊版 Chrome 74 能跑的範圍。</p></div>
+        <div class="feature"><h3>懸浮小框<span class="status"><i class="dot ok"></i>完成</span></h3><p>原生小元件，每秒更新 4 次；橫向膠囊只佔地圖角落一條。框以外的觸控照樣傳給 CarPlay；長按隱藏 5 分鐘。</p></div>
+        <div class="feature"><h3>全螢幕儀表<span class="status"><i class="dot ok"></i>完成</span></h3><p>大字車速、分段轉速條、水溫刻度與車況清單、行程列。用 WebView 顯示，程式與樣式都限制在車機舊版 Chrome 74 能跑的範圍。</p></div>
         <div class="feature"><h3>GPS 行程<span class="status"><i class="dot ok"></i>完成</span></h3><p>本次里程、行駛時間、平均車速；過濾 GPS 跳點，重開 App 不歸零。</p></div>
-        <div class="feature"><h3>為 2GB 車機減重<span class="status"><i class="dot ok"></i>完成</span></h3><p>切回 CarPlay 時全螢幕儀表直接釋放；輕量模式關掉特效；診斷區顯示實際記憶體用量。</p></div>
+        <div class="feature"><h3>為 2GB 車機減重<span class="status"><i class="dot ok"></i>完成</span></h3><p>切回 CarPlay 時全螢幕儀表直接釋放；輕量模式降低更新頻率；診斷區顯示實際記憶體用量。</p></div>
         <div class="feature"><h3>OBD 引擎數據<span class="status"><i class="dot"></i>規劃中</span></h3><p>轉速、水溫、進氣量算油耗、電瓶電壓、故障碼。連線後先問車子支援哪些項目，只顯示真的有的。</p></div>
-        <div class="feature"><h3>水溫異常提醒<span class="status"><i class="dot"></i>規劃中</span></h3><p>Tiida 沒有冷卻水水位感知器。改成學習平常的水溫，偏高、忽高忽低或暖車變慢時提醒去看副水箱。</p></div>
+        <div class="feature"><h3>水溫異常提醒<span class="status"><i class="dot"></i>畫面完成，等 OBD</span></h3><p>Tiida 沒有冷卻水水位感知器。改成學習平常的水溫，偏高、忽高忽低或暖車變慢時提醒去看副水箱。</p></div>
       </div>
     </section>
 
@@ -241,34 +281,34 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
       <div class="diagram" role="img" aria-label="資料流：GPS、OBD 接頭（之後）、車機資料（待探測）進入前景服務 DashService，再到 DataHub 與 TripStore，最後分給懸浮小框與全螢幕儀表。">
         <svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, sans-serif">
           <defs>
-            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#9a9fa6"/></marker>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a3acb7"/></marker>
           </defs>
-          <g font-size="15" fill="#ebe8e2">
-            <rect x="10" y="20" width="170" height="56" rx="10" fill="#1c1f24" stroke="#3ccf7a"/>
+          <g font-size="15" fill="#f3f5f7">
+            <rect x="10" y="20" width="170" height="56" rx="10" fill="#1c2026" stroke="#3ddc84"/>
             <text x="95" y="54" text-anchor="middle">GPS</text>
-            <rect x="10" y="102" width="170" height="56" rx="10" fill="#1c1f24" stroke="#5d636b" stroke-dasharray="6 5"/>
+            <rect x="10" y="102" width="170" height="56" rx="10" fill="#1c2026" stroke="#6b7480" stroke-dasharray="6 5"/>
             <text x="95" y="128" text-anchor="middle">OBD 接頭</text>
-            <text x="95" y="147" text-anchor="middle" font-size="12" fill="#9a9fa6">之後接上</text>
-            <rect x="10" y="184" width="170" height="56" rx="10" fill="#1c1f24" stroke="#5d636b" stroke-dasharray="6 5"/>
+            <text x="95" y="147" text-anchor="middle" font-size="12" fill="#a3acb7">之後接上</text>
+            <rect x="10" y="184" width="170" height="56" rx="10" fill="#1c2026" stroke="#6b7480" stroke-dasharray="6 5"/>
             <text x="95" y="210" text-anchor="middle">車機資料</text>
-            <text x="95" y="229" text-anchor="middle" font-size="12" fill="#9a9fa6">等探測結果</text>
+            <text x="95" y="229" text-anchor="middle" font-size="12" fill="#a3acb7">等探測結果</text>
 
-            <rect x="250" y="88" width="190" height="84" rx="12" fill="#1c1f24" stroke="#ff6a1a"/>
+            <rect x="250" y="88" width="190" height="84" rx="12" fill="#1c2026" stroke="#f3f5f7"/>
             <text x="345" y="124" text-anchor="middle">前景服務</text>
-            <text x="345" y="146" text-anchor="middle" font-size="12" fill="#9a9fa6" font-family="Share Tech Mono, monospace">DashService</text>
+            <text x="345" y="146" text-anchor="middle" font-size="13" fill="#a3acb7" font-family="Barlow, Arial, sans-serif">DashService</text>
 
-            <rect x="500" y="88" width="170" height="84" rx="12" fill="#1c1f24" stroke="#2a2e34"/>
+            <rect x="500" y="88" width="170" height="84" rx="12" fill="#1c2026" stroke="#262b33"/>
             <text x="585" y="124" text-anchor="middle">資料中樞</text>
-            <text x="585" y="146" text-anchor="middle" font-size="12" fill="#9a9fa6" font-family="Share Tech Mono, monospace">DataHub · TripStore</text>
+            <text x="585" y="146" text-anchor="middle" font-size="13" fill="#a3acb7" font-family="Barlow, Arial, sans-serif">DataHub · TripStore</text>
 
-            <rect x="730" y="30" width="160" height="70" rx="12" fill="#1c1f24" stroke="#2a2e34"/>
+            <rect x="730" y="30" width="160" height="70" rx="12" fill="#1c2026" stroke="#262b33"/>
             <text x="810" y="61" text-anchor="middle">懸浮小框</text>
-            <text x="810" y="82" text-anchor="middle" font-size="12" fill="#9a9fa6">疊在 ZLink 上</text>
-            <rect x="730" y="160" width="160" height="70" rx="12" fill="#1c1f24" stroke="#2a2e34"/>
+            <text x="810" y="82" text-anchor="middle" font-size="12" fill="#a3acb7">疊在 ZLink 上</text>
+            <rect x="730" y="160" width="160" height="70" rx="12" fill="#1c2026" stroke="#262b33"/>
             <text x="810" y="191" text-anchor="middle">全螢幕儀表</text>
-            <text x="810" y="212" text-anchor="middle" font-size="12" fill="#9a9fa6">WebView · 離開即釋放</text>
+            <text x="810" y="212" text-anchor="middle" font-size="12" fill="#a3acb7">WebView · 離開即釋放</text>
           </g>
-          <g stroke="#9a9fa6" stroke-width="1.6" fill="none">
+          <g stroke="#a3acb7" stroke-width="1.6" fill="none">
             <path d="M180 48 C215 48 215 112 248 116" marker-end="url(#arr)"/>
             <path d="M180 130 L248 130" stroke-dasharray="6 5" marker-end="url(#arr)"/>
             <path d="M180 212 C215 212 215 148 248 144" stroke-dasharray="6 5" marker-end="url(#arr)"/>
@@ -290,11 +330,11 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
         <div><b>VERIFY</b><p>GitHub Actions 編譯、簽章，在模擬器的 1024×600 與 1280×720 上實際開啟 App、截圖、檢查版面。</p></div>
       </div>
       <div class="stats">
-        <div><b>13</b><small>Codex 實作任務</small></div>
-        <div><b>4</b><small>次獨立 Claude 審查</small></div>
+        <div><b>16</b><small>Codex 實作任務</small></div>
+        <div><b>5</b><small>次獨立 Claude 審查</small></div>
         <div><b>74</b><small>WebView 相容底線（Chrome 版本）</small></div>
       </div>
-      <p class="note"><b>獨立審查有用。</b>第四次審查抓到一個前兩道都漏掉的問題：很多車機開大燈會自動切換夜間模式，這時全螢幕儀表會被誤關。修正後才放行。</p>
+      <p class="note"><b>截圖會說話。</b>改版後的模擬器截圖顯示：GPS 還沒定位時，大字的「--」黏成一條白色粗槓，看起來像畫面壞了。原因是字型會把兩個連字號合成一條長槓，而車機那種舊版瀏覽器核心不會自動取消。測試和電腦預覽都沒抓到，是看模擬器截圖才發現，關掉連字、改成灰色短槓後才放行。</p>
     </section>
 
     <section id="status">
@@ -305,10 +345,10 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
           <thead><tr><th>項目</th><th>狀態</th><th>說明</th></tr></thead>
           <tbody>
             <tr><td>探測 App 0.1.2</td><td><span class="status"><i class="dot ok"></i>完成</span></td><td>系統、螢幕、WebView、廠商服務、藍牙、定位、記憶體、CPU；存檔或 QR 匯出。</td></tr>
-            <tr><td>儀表 App 0.3.2</td><td><span class="status"><i class="dot ok"></i>完成</span></td><td>懸浮小框、全螢幕儀表、GPS 行程、示範與輕量模式。</td></tr>
+            <tr><td>儀表 App 0.4.0</td><td><span class="status"><i class="dot ok"></i>完成</span></td><td>新版畫面、懸浮小框、全螢幕儀表、GPS 行程、示範與輕量模式。</td></tr>
             <tr><td>車機實測</td><td><span class="status"><i class="dot wait"></i>進行中</span></td><td>懸浮框能否疊在 ZLink 上、2GB 記憶體夠不夠、探測報告。</td></tr>
             <tr><td>OBD 數據</td><td><span class="status"><i class="dot"></i>未開始</span></td><td>等探測結果決定接頭型號。</td></tr>
-            <tr><td>水溫異常提醒</td><td><span class="status"><i class="dot"></i>未開始</span></td><td>需要 OBD 的水溫資料。</td></tr>
+            <tr><td>水溫異常提醒</td><td><span class="status"><i class="dot"></i>畫面完成</span></td><td>提醒的版面已做好，需要 OBD 的水溫資料才會動。</td></tr>
           </tbody>
         </table>
       </div>
@@ -317,7 +357,7 @@ footer { margin-top: 64px; padding-block: 28px max(36px, env(safe-area-inset-bot
 
   <footer>
     <span>個人專案，與 Nissan、JHY、ZJINNOVA、Apple 無關；各商標屬其擁有者。原始構想來自 <a href="https://www.threads.com/@johnnp/post/DfaVdEok_AA">@johnnp</a>。</span>
-    <span>字型：DSEG（Keshikan，SIL OFL 1.1）、Share Tech Mono、Barlow Semi Condensed、Noto Sans TC。程式碼目前不公開。</span>
+    <span>字型：Barlow（The Barlow Project Authors，SIL OFL 1.1）、Noto Sans TC。程式碼目前不公開。</span>
   </footer>
 </div>
 </body>
