@@ -165,16 +165,16 @@ footer a { color: var(--muted); }
     <div class="hero">
       <div class="eyebrow">JHY 9 吋 Android 車機 · ZLink 無線 CarPlay</div>
       <h1>給 2010 Tiida 的自製儀表</h1>
-      <p class="lead">原廠儀表看不到的數字，放到中控螢幕上：開導航時，一個小框疊在 CarPlay 角落顯示車速；停車時，打開全螢幕儀表看轉速、水溫、電壓和行程。全部是裝在車機上的 App，原本的系統和 CarPlay 都不動。</p>
+      <p class="lead">開導航時，一個小框疊在 CarPlay 角落顯示車速；停車時，打開 App 看今天開過的路線、高度起伏、油耗和保養進度。全部是裝在車機上的 App，原本的系統和 CarPlay 都不動。</p>
       <div class="readout" aria-label="專案數字">
         <div><b>2</b><small>Android App</small></div>
         <div><b>2</b><small>種螢幕尺寸自動測試</small></div>
-        <div><b>16</b><small>實作任務</small></div>
+        <div><b>27</b><small>實作任務</small></div>
         <div><b>2</b><small>GB 車機記憶體</small></div>
       </div>
       <figure>
-        <div class="shot"><img src="assets/img/dashboard-demo.jpg" width="1600" height="900" alt="全螢幕儀表 v0.4 示範模式：左側導覽列，中間大字車速與橫向分段轉速條，右邊水溫、電瓶、瞬間油耗與引擎負載清單，底部是本次行程、行駛時間、平均車速與平均油耗。"></div>
-        <figcaption><span class="tag real">實際畫面</span>全螢幕儀表 v0.4（Android 模擬器、示範模式）。</figcaption>
+        <div class="shot"><img src="assets/img/dashboard-demo.jpg" width="1600" height="900" alt="全螢幕儀表 v0.9 示範模式：左側導覽列，中間大字車速與橫向分段轉速條，右邊水溫、電瓶、瞬間油耗與引擎負載清單，底部是本次行程、行駛時間、平均車速與平均油耗。"></div>
+        <figcaption><span class="tag real">實際畫面</span>全螢幕儀表 v0.9（Android 模擬器、示範模式）。</figcaption>
       </figure>
     </div>
 
@@ -251,6 +251,18 @@ footer a { color: var(--muted); }
           <div class="shot"><img src="assets/img/dashboard-alert.jpg" width="1280" height="720" loading="lazy" alt="水溫偏高提醒原型：水溫 108°C 以琥珀色顯示，車速縮小，下方出現琥珀色提醒條「水溫偏高 108 °C，留意水溫，停車後檢查副水箱水位」。"></div>
           <figcaption><span class="tag proto">原型</span>水溫 105 °C 起：數字和提醒條變琥珀色，車速縮小讓出位置；110 °C 起改紅色。</figcaption>
         </figure>
+        <figure class="wide">
+          <div class="shot"><img src="assets/img/trip-map-preview.jpg" width="800" height="450" loading="lazy" alt="行程頁的離線地圖：深色道路地圖上疊著兩趟示範路線，依車速分色，標示起點與終點，下方是高度起伏曲線。"></div>
+          <figcaption><span class="tag proto">電腦預覽</span>行程頁的離線地圖（示範路線）。不靠網路，還沒在車機上驗證過，跑不動時會自動退回無底圖的路線圖。</figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><img src="assets/img/trip-routes.jpg" width="1600" height="900" loading="lazy" alt="行程頁無底圖版：左邊是日期清單，右邊是依車速分色的路線、放大按鈕與高度起伏曲線。"></div>
+          <figcaption><span class="tag real">實際畫面</span>沒有地圖時的路線圖（示範資料）：依車速分色，按住高度曲線可以查看位置與車速。</figcaption>
+        </figure>
+        <figure>
+          <div class="shot"><img src="assets/img/garage.jpg" width="1600" height="900" loading="lazy" alt="車況頁總覽：預估總里程、最近滿油法油耗與最接近到期的保養項目。"></div>
+          <figcaption><span class="tag real">實際畫面</span>車況頁（示範資料）：沒有 OBD 也能算油耗、提醒保養。</figcaption>
+        </figure>
         <figure>
           <div class="shot"><img src="assets/img/settings.jpg" width="1600" height="900" loading="lazy" alt="設定頁：左邊是權限、啟動、示範模式、輕量模式、ZLink 等設定，右邊是診斷資訊，包含系統記憶體與 App 記憶體。"></div>
           <figcaption><span class="tag real">實際畫面</span>設定頁與診斷區。到車上拍這一區，就知道 2GB 記憶體夠不夠用。</figcaption>
@@ -267,10 +279,16 @@ footer a { color: var(--muted); }
       <p class="sub">兩個 App：<b>Tiida Probe</b> 只跑一次，用來了解車機；<b>Tiida Dashboard</b> 是每天用的儀表。</p>
       <div class="features">
         <div class="feature"><h3>懸浮小框<span class="status"><i class="dot ok"></i>完成</span></h3><p>原生小元件，每秒更新 4 次；橫向膠囊只佔地圖角落一條。框以外的觸控照樣傳給 CarPlay；長按隱藏 5 分鐘。</p></div>
-        <div class="feature"><h3>全螢幕儀表<span class="status"><i class="dot ok"></i>完成</span></h3><p>大字車速、分段轉速條、水溫刻度與車況清單、行程列。用 WebView 顯示，程式與樣式都限制在車機舊版 Chrome 74 能跑的範圍。</p></div>
+        <div class="feature"><h3>全螢幕儀表<span class="status"><i class="dot ok"></i>完成</span></h3><p>大字車速、分段轉速條、水溫刻度與車況清單、行程列。用 WebView 顯示，程式與樣式都限制在車機 WebView（Chrome 80）能跑的範圍。從桌面開 App 就直接進儀表。</p></div>
         <div class="feature"><h3>GPS 行程<span class="status"><i class="dot ok"></i>完成</span></h3><p>本次里程、行駛時間、平均車速；過濾 GPS 跳點，重開 App 不歸零。</p></div>
         <div class="feature"><h3>為 2GB 車機減重<span class="status"><i class="dot ok"></i>完成</span></h3><p>切回 CarPlay 時全螢幕儀表直接釋放；輕量模式降低更新頻率；診斷區顯示實際記憶體用量。</p></div>
-        <div class="feature"><h3>OBD 引擎數據<span class="status"><i class="dot"></i>規劃中</span></h3><p>轉速、水溫、進氣量算油耗、電瓶電壓、故障碼。連線後先問車子支援哪些項目，只顯示真的有的。</p></div>
+        <div class="feature"><h3>行程與路線<span class="status"><i class="dot ok"></i>完成</span></h3><p>每天每一趟的路線依車速上色，加上高度起伏與統計。資料只存在車機，保留 90 天，可以刪除或關閉記錄。</p></div>
+        <div class="feature"><h3>離線地圖<span class="status"><i class="dot wait"></i>待車機驗證</span></h3><p>開 CarPlay 時車機沒有網路，所以把 OpenStreetMap 的地圖檔打包進 App，只在停車看行程時載入。</p></div>
+        <div class="feature"><h3>車況頁<span class="status"><i class="dot ok"></i>完成</span></h3><p>加油記帳算實際油耗、依里程提醒保養、每月報表。不需要 OBD，里程靠 GPS 累計，可以對照原廠儀表校正。</p></div>
+        <div class="feature"><h3>CarPlay 音樂按鈕<span class="status"><i class="dot wait"></i>待車機驗證</span></h3><p>在儀表上切歌，只送媒體按鍵，不碰音訊路徑，音質不變。ZLink 有提供時顯示歌名與藝人。</p></div>
+        <div class="feature"><h3>行事曆<span class="status"><i class="dot wait"></i>待車機驗證</span></h3><p>訂閱 Google 與 iCloud 日曆，儀表上顯示接下來的行程。沒網路時顯示上次更新的內容。</p></div>
+        <div class="feature"><h3>和 CarPlay 搭配<span class="status"><i class="dot wait"></i>待車機驗證</span></h3><p>可選上車自動開 CarPlay、小框只在 CarPlay 時出現、超速變色。都預設關閉，不會讓畫面自己跳走。</p></div>
+        <div class="feature"><h3>OBD 引擎數據<span class="status"><i class="dot"></i>暫緩</span></h3><p>轉速、水溫、進氣量算油耗、電瓶電壓、故障碼。連線後先問車子支援哪些項目，只顯示真的有的。</p></div>
         <div class="feature"><h3>水溫異常提醒<span class="status"><i class="dot"></i>畫面完成，等 OBD</span></h3><p>Tiida 沒有冷卻水水位感知器。改成學習平常的水溫，偏高、忽高忽低或暖車變慢時提醒去看副水箱。</p></div>
       </div>
     </section>
@@ -339,15 +357,15 @@ footer a { color: var(--muted); }
 
     <section id="status">
       <h2>進度</h2>
-      <p class="sub">不需要車子就能做的部分都完成了，下一步是上車實測。</p>
+      <p class="sub">功能都做完了，正在車上一項一項驗證。</p>
       <div class="table">
         <table>
           <thead><tr><th>項目</th><th>狀態</th><th>說明</th></tr></thead>
           <tbody>
             <tr><td>探測 App 0.1.2</td><td><span class="status"><i class="dot ok"></i>完成</span></td><td>系統、螢幕、WebView、廠商服務、藍牙、定位、記憶體、CPU；存檔或 QR 匯出。</td></tr>
-            <tr><td>儀表 App 0.4.0</td><td><span class="status"><i class="dot ok"></i>完成</span></td><td>新版畫面、懸浮小框、全螢幕儀表、GPS 行程、示範與輕量模式。</td></tr>
-            <tr><td>車機實測</td><td><span class="status"><i class="dot wait"></i>進行中</span></td><td>懸浮框能否疊在 ZLink 上、2GB 記憶體夠不夠、探測報告。</td></tr>
-            <tr><td>OBD 數據</td><td><span class="status"><i class="dot"></i>未開始</span></td><td>等探測結果決定接頭型號。</td></tr>
+            <tr><td>儀表 App 0.9.0</td><td><span class="status"><i class="dot ok"></i>完成</span></td><td>懸浮小框、全螢幕儀表、行程與路線、車況頁、音樂按鈕、行事曆、離線地圖。</td></tr>
+            <tr><td>車機實測</td><td><span class="status"><i class="dot wait"></i>進行中</span></td><td>探測完成；懸浮小框加入車機白名單後可疊在 CarPlay 上，路線記錄正常。音樂、行事曆、離線地圖還在測。</td></tr>
+            <tr><td>OBD 數據</td><td><span class="status"><i class="dot"></i>暫緩</span></td><td>探測確認車機沒有現成的車輛資料，需要時買藍牙接頭。</td></tr>
             <tr><td>水溫異常提醒</td><td><span class="status"><i class="dot"></i>畫面完成</span></td><td>提醒的版面已做好，需要 OBD 的水溫資料才會動。</td></tr>
           </tbody>
         </table>
@@ -357,7 +375,7 @@ footer a { color: var(--muted); }
 
   <footer>
     <span>個人專案，與 Nissan、JHY、ZJINNOVA、Apple 無關；各商標屬其擁有者。原始構想來自 <a href="https://www.threads.com/@johnnp/post/DfaVdEok_AA">@johnnp</a>。</span>
-    <span>字型：Barlow（The Barlow Project Authors，SIL OFL 1.1）、Noto Sans TC。程式碼目前不公開。</span>
+    <span>地圖資料 © OpenStreetMap 貢獻者。字型：Barlow（The Barlow Project Authors，SIL OFL 1.1）、Noto Sans TC。程式碼目前不公開。</span>
   </footer>
 </div>
 </body>
